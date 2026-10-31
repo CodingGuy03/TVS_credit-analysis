@@ -10,15 +10,15 @@
 
 ---
 
-## 📌 Executive Problem Statement & Context
+##  Executive Problem Statement & Context
 TVS Credit actively reaches out to its existing customer base to communicate eligibility for Personal Loans and quote maximum offer amounts. However, customer feedback indicates that many creditworthy borrowers requiring a Personal Loan find their offered amount insufficient and consequently drop out of the funnel. Conversely, simply increasing loan limits across the board would expose the portfolio to severe credit risk.
 
-### 🎯 Core Objective
+###  Core Objective
 Develop an alternate, data-driven offer amount generation logic leveraging customer product holdings, repayment performance, and risk metrics such that:
 1. **Relatively lower-risk customers** receive **higher loan amounts** than current offers (driving portfolio growth & conversion).
 2. **Relatively higher-risk customers** receive **lower or equal loan amounts** (ensuring risk mitigation and capital protection).
 
-### 📊 Mandatory Evaluation Framework (0–100 Score)
+###  Mandatory Evaluation Framework (0–100 Score)
 | Evaluation Dimension | Weight | Mathematical Objective | Status |
 | :--- | :---: | :--- | :---: |
 | **Criterion 1: Portfolio Growth** | **30%** | $\text{Mean}(\text{Proposed}) \ge \text{Mean}(\text{Existing})$ overall | ✅ **PASS (30/30)** |
@@ -27,7 +27,7 @@ Develop an alternate, data-driven offer amount generation logic leveraging custo
 
 ---
 
-## 🧠 Solution Architecture: Two-Stage Champion Engine
+##  Solution Architecture: Two-Stage Champion Engine
 
 Instead of relying on historical offers as a rigid anchor with generic percentage adjustments, we decoupled **Borrowing Capacity** from **Default Risk** using a two-stage decisioning framework:
 
@@ -69,7 +69,7 @@ $$\text{Proposed Offer}_i = \text{BASELINE\_CAPACITY}_i \times \text{Multiplier}
 
 ---
 
-## 🛠️ Data Engineering & Feature Pipeline
+##  Data Engineering & Feature Pipeline
 
 The raw dataset (`157,557 rows × 128 columns`) spans multiple domains: Demographics, Delinquency, Repayment Performance, Multi-Product Exposures, Balances, and Bureau Enquiries.
 
@@ -83,7 +83,7 @@ The raw dataset (`157,557 rows × 128 columns`) spans multiple domains: Demograp
 
 ---
 
-## 📈 Model Benchmarking & Explainability
+##  Model Benchmarking & Explainability
 
 ### Risk Classification Models (Predicting `COMPOSITE_RISK_EVENT_RECENT_VINTAGE`)
 Due to severe class imbalance ($\sim 0.4\%$ default rate), models were trained using cost-sensitive learning (`scale_pos_weight = 16.525` / balanced class weights) on disbursed loan takers:
@@ -100,7 +100,7 @@ Due to severe class imbalance ($\sim 0.4\%$ default rate), models were trained u
 
 ---
 
-## 🏆 Key Results & Policy Performance
+##  Key Results & Policy Performance
 
 ### 1. Multi-Iteration Policy Progression (Test Cohort: $N = 119,891$)
 | Iteration Strategy | Avg Proposed Offer | C1: Portfolio Growth (30) | C2: Risk Reduction (40) | C3: Taker Expansion (30) | Total Score (100) |
@@ -130,34 +130,9 @@ Evaluating the Two-Stage Champion Engine on unseen `VALIDATION` data demonstrate
 
 ---
 
-## 💻 Repository Structure & Usage
 
-```text
-├── TVS_analytics_v2.ipynb         # Complete end-to-end Jupyter Notebook (EDA, Modeling, Scoring)
-├── TVS_Analytics_Case2.pdf        # Executive Presentation Deck (Slides & Visual Dashboards)
-├── tvs_offer_effectiveness.png    # Generated Validation Quintile & Distribution Plots
-└── README.md                      # Project Documentation
-```
 
-### Prerequisites & Installation
-To run the notebook locally or in Google Colab, install the required dependencies:
-
-```bash
-pip install numpy pandas matplotlib seaborn scikit-learn xgboost lightgbm pyxlsb
-```
-
-### Running the Pipeline
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/tvs-credit-epic8-case2.git
-   cd tvs-credit-epic8-case2
-   ```
-2. Place the raw dataset (`case2_data.xlsb`) in your working directory or mount it via Google Drive.
-3. Open and execute `TVS_analytics_v2.ipynb` sequentially to reproduce the feature engineering, 5-fold cross-validation, policy evaluation score, and validation quintile tables.
-
----
-
-## 🚀 Business Impact & Use Cases
+##  Business Impact & Use Cases
 * **Personalized Loan Offers at Scale:** Replaces rigid, one-size-fits-all grids with individualized capacity and risk pricing.
 * **Higher Funnel Conversion:** Solves the "insufficient offer amount" drop-out problem for prime borrowers.
 * **Smarter Capital Allocation:** Actively shifts capital away from high-delinquency segments ($-18.4\%$ exposure reduction) and reallocates it toward low-risk revenue generators.
